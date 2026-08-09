@@ -22,15 +22,17 @@
     <meta name="twitter:title" content="Ranko - ابزار حرفه‌ای سئو" />
     <meta name="twitter:description" content="ابزار جامع سئو با ۲۵۱ قاعده در ۲۰ دسته" />
     
-    <!-- IRANYekanX VF Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IRANYekanX:wght@100..900&display=swap" rel="stylesheet">
-    
     <title>Ranko - ابزار حرفه‌ای سئو | لابراتوار درهمی</title>
     
     <style>
-      * { font-family: 'IRANYekanX', system-ui, sans-serif; }
+      @font-face {
+        font-family: 'IRANYekanX';
+        src: url('/fonts/IRANYekanXVF.woff2') format('woff2-variations');
+        font-weight: 100 900;
+        font-display: swap;
+        font-style: normal;
+      }
+      * { font-family: 'IRANYekanX', 'Tahoma', system-ui, sans-serif; }
       body { margin: 0; background: #111214; color: #E8E9ED; }
       .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
       
@@ -224,7 +226,7 @@
     <!-- Footer -->
     <footer class="footer">
       <div class="container">
-        <p>Ranko © {new Date().getFullYear()} | ساخته شده با ♥ توسط <a href="https://derhami.com">حمیدرضا درهمی</a></p>
+        <p>Ranko © 2026 | ساخته شده با ♥ توسط <a href="https://derhami.com">حمیدرضا درهمی</a></p>
         <p style="margin-top: 8px;">بخشی از <a href="https://nounproject.ir">لابراتوار پروژه‌های درهمی</a></p>
       </div>
     </footer>
