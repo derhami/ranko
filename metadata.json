@@ -1,0 +1,8 @@
+{
+  "name": "رنکو - سامانه ممیزی و آنالیز سئو",
+  "description": "سامانه هوشمند ممیزی و آنالیز سئوی وب‌سایت با ۲۵۱ قانون در ۲۰ دسته‌بندی تخصصی، خزش صفحات، سنجش Core Web Vitals و تاریخچه ممیزی‌ها (seo.nounproject.ir)",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
