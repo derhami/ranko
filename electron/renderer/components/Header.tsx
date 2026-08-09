@@ -25,7 +25,7 @@ export function Header({ url, crawledPages, activeView, onViewChange }: HeaderPr
         {/* Brand */}
         <div className="flex items-center gap-2.5 shrink-0">
           <a
-            href="https://seo.nounproject.ir"
+            href="https://ranko.nounproject.ir"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2.5 no-drag group hover:opacity-95 transition-opacity no-underline"

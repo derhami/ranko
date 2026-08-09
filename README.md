@@ -319,6 +319,36 @@ jobs:
 
 ---
 
+## 🌐 اجرای نسخه وب (سرویس آنلاین)
+
+علاوه بر CLI و دسکتاپ، **رنکو** شامل یک وب‌اپلیکیشن کامل است (سرور Express + رابط React) که از طریق `server.ts` اجرا می‌شود:
+
+```bash
+npm install
+npm run build:web     # ساخت رابط وب → dist-electron/renderer
+npm start             # اجرای سرور روی http://localhost:3000
+```
+
+- **API**: `/api/audit/run` (SSE streaming)، `/api/db/*` (تاریخچه ممیزی‌ها)، `/api/health`
+- **ذخیره‌سازی**: داده‌ها در `~/.seomator/` (قابل override با `SEOMATOR_HOME`)
+
+### دیپلوی ابری (Railway / Render / Fly.io)
+
+پروژه شامل `Dockerfile`، `render.yaml` و `fly.toml` است:
+
+| پلتفرم | روش |
+|--------|-----|
+| **Railway** | ریپو را به Railway متصل کنید — `Dockerfile` خودکار شناسایی می‌شود |
+| **Render** | Blueprint موجود در `render.yaml` را متصل کنید |
+| **Fly.io** | `fly launch` سپس `fly deploy` |
+
+مهم:
+- پورت مورد انتظار: `8080` (از طریق متغیر `PORT`)
+- دیتابیس روی ولوم `/data` ذخیره می‌شود (`SEOMATOR_HOME=/data/seomator`) — ولوم دائمی برای بقای داده‌ها ضروری است
+- Health check: `/api/health`
+
+---
+
 ## 📄 مجوز
 
 MIT License - مشاهده [LICENSE](./LICENSE)

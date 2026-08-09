@@ -366,7 +366,7 @@ async function startServer() {
 
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(resolve(__dirname, 'dist-electron/renderer')));
-    app.get('*', (_req, res) => {
+    app.use((_req, res) => {
       res.sendFile(resolve(__dirname, 'dist-electron/renderer/index.html'));
     });
   } else {

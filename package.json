@@ -18,6 +18,7 @@
   ],
   "scripts": {
     "build": "tsup && npm run electron:build",
+    "build:web": "vite build -c vite.web.config.ts",
     "dev": "tsx server.ts",
     "start": "tsx server.ts",
     "test": "vitest",

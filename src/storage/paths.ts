@@ -3,8 +3,13 @@ import * as path from 'path';
 
 /**
  * Get global seomator directory (~/.seomator)
+ * Can be overridden via SEOMATOR_HOME for containerized deployments
  */
 export function getGlobalDir(): string {
+  const override = process.env.SEOMATOR_HOME;
+  if (override) {
+    return override;
+  }
   return path.join(os.homedir(), '.seomator');
 }
 

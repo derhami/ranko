@@ -55,7 +55,7 @@ export function copySummaryText(result: AuditResult): Promise<boolean> {
 ❌ خطا: ${totalFail}
 📄 صفحات بررسی شده: ${result.crawledPages}
 
-${topFails.length > 0 ? `🚨 مهم‌ترین خطاهای نیازمند اصلاح:\n${topFails.join('\n')}\n\n` : ''}🔗 تولید شده توسط Ranko Pro (seo.nounproject.ir)`;
+${topFails.length > 0 ? `🚨 مهم‌ترین خطاهای نیازمند اصلاح:\n${topFails.join('\n')}\n\n` : ''}🔗 تولید شده توسط Ranko Pro (ranko.nounproject.ir)`;
 
   return navigator.clipboard
     .writeText(summary)
