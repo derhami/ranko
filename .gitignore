@@ -41,6 +41,12 @@ coverage/
 # Generated reports & screenshots
 seo-report-*.html
 *.png
+!electron/renderer/public/favicon-16x16.png
+!electron/renderer/public/favicon-32x32.png
+!electron/renderer/public/favicon-192.png
+!electron/renderer/public/favicon-512.png
+!electron/renderer/public/apple-touch-icon.png
+!electron/renderer/public/og-image.png
 
 # Playwright MCP data
 .playwright-mcp/
