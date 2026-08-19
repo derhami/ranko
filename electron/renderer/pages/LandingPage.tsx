@@ -141,8 +141,16 @@ function Hero({ onStart, serverOk }: { onStart: (url: string) => void; serverOk:
   return (
     <section className="relative" id="start">
       <div className="flex flex-col items-center text-center max-w-3xl mx-auto pt-24 sm:pt-32 pb-16 px-4">
+        {/* Logo */}
+        <img
+          src="/logo.svg"
+          alt="لوگوی رنکو"
+          className="hero-rise w-24 h-24 sm:w-28 sm:h-28 rounded-[1.5rem] ring-1 ring-white/10"
+          style={{ boxShadow: '0 24px 70px -24px rgba(255,141,100,0.5)' }}
+        />
+
         {/* Pill */}
-        <div className="hero-rise inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10 bg-white/5 text-[12px] font-bold text-zinc-300">
+        <div className="hero-rise hero-rise-1 mt-7 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-white/10 bg-white/5 text-[12px] font-bold text-zinc-300">
           <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: ACCENT }} />
           ۲۵۱ قانون · ۲۰ دسته · کاملاً رایگان
           <span className="text-zinc-500">/</span>
@@ -396,62 +404,6 @@ function HowItWorks() {
   );
 }
 
-function CTA({ onStart, onOpenApp, serverOk }: { onStart: (url: string) => void; onOpenApp: () => void; serverOk: boolean | null }) {
-  const [value, setValue] = useState('');
-  const [offline, setOffline] = useState(false);
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    const u = urlToAudit(value);
-    if (!u) return;
-    if (serverOk === false) {
-      setOffline(true);
-      return;
-    }
-    setOffline(false);
-    onStart(u);
-  };
-  return (
-    <section className="px-4 pb-24 pt-6">
-      <div className="relative max-w-3xl mx-auto rounded-[2rem] border border-white/10 overflow-hidden text-center py-16 px-6" style={{ backgroundColor: '#0d0d10', boxShadow: '0 40px 120px -50px rgba(255,141,100,0.5)' }}>
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-l from-transparent via-[#ff8d64]/70 to-transparent" />
-        <div className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[26rem] h-[26rem] rounded-full opacity-40 blur-[110px]" style={{ background: ACCENT }} />
-        <div className="relative">
-          <h2 className="text-2xl sm:text-4xl font-black tracking-tighter text-zinc-50">
-            رایگان. همین الان شروع کن.
-          </h2>
-          <p className="mt-3 text-zinc-400 text-sm sm:text-base max-w-md mx-auto">
-            بدون ثبت‌نام، بدون کارت، بدون محدودیت. کدش متن‌باز است و هیچ‌کجا نگهداری نمی‌شود جز روی سرور تو.
-          </p>
-          <form onSubmit={submit} className="mt-7 flex gap-2 max-w-xl mx-auto">
-            <input
-              type="text"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              placeholder="example.com"
-              dir="ltr"
-              className="flex-1 rounded-xl bg-white/5 border border-white/10 px-4 py-3 text-sm text-zinc-100 placeholder:text-zinc-500 focus:outline-none focus:border-white/25 transition-colors text-left"
-            />
-            <button
-              type="submit"
-              disabled={!value.trim()}
-              className="rounded-xl px-5 py-3 text-sm font-bold text-zinc-950 disabled:opacity-40 transition-transform active:scale-95"
-              style={{ background: `linear-gradient(120deg, ${ACCENT}, #ff7a4a)` }}
-            >
-              آنالیز کن
-            </button>
-          </form>
-          <div className="mt-4">
-            <OfflineNotice show={offline} />
-          </div>
-          <a onClick={onOpenApp} href="#" className="inline-block mt-5 text-xs font-bold text-zinc-500 hover:text-zinc-300 transition-colors">
-            یا مستقیم وارد ابزار شو ←
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ─── Root ────────────────────────────────────────────────────────────────── */
 
 export function LandingPage({ onStart, onOpenApp }: LandingPageProps) {
@@ -509,7 +461,7 @@ export function LandingPage({ onStart, onOpenApp }: LandingPageProps) {
             className="flex items-center gap-2.5 no-underline"
             onClick={(e) => { e.preventDefault(); document.getElementById('start')?.scrollIntoView({ behavior: 'smooth' }); }}
           >
-            <img src="/favicon.svg" alt="لوگوی رنکو" className="w-7 h-7" />
+            <img src="/logo.svg" alt="لوگوی رنکو" className="w-9 h-9 rounded-[10px] ring-1 ring-white/10" />
             <span className="text-[17px] font-black tracking-tight text-zinc-50">
               رنکو
             </span>
@@ -538,14 +490,13 @@ export function LandingPage({ onStart, onOpenApp }: LandingPageProps) {
         <Hero onStart={onStart} serverOk={serverOk} />
         <Features />
         <HowItWorks />
-        <CTA onStart={onStart} onOpenApp={onOpenApp} serverOk={serverOk} />
       </main>
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-white/[0.06]">
         <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-zinc-500">
           <p className="flex items-center gap-1.5">
-            <img src="/favicon.svg" alt="رنکو" className="w-4 h-4" />
+            <img src="/logo.svg" alt="رنکو" className="w-4 h-4 rounded-[4px]" />
             <span>
               رنکو — ابزار متن‌باز و رایگان سئو از{' '}
               <a href="https://nounproject.ir" target="_blank" rel="noreferrer" className="no-underline font-bold text-zinc-300 hover:text-[#ffb38e] transition-colors">
