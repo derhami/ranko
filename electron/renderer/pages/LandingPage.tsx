@@ -91,13 +91,51 @@ const CATEGORIES = [
 
 /* ─── Sections ───────────────────────────────────────────────────────────── */
 
-function Hero({ onStart }: Pick<LandingPageProps, 'onStart'>) {
+function OfflineNotice({ show }: { show: boolean }) {
+  if (!show) return null;
+  return (
+    <div className="mt-4 w-full max-w-xl rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-right">
+      <p className="text-[13px] font-bold text-zinc-200 mb-1.5">موتور آنالیز آنلاین الان در دسترس نیست</p>
+      <p className="text-[12px] leading-relaxed text-zinc-400 mb-2.5">
+        برای اجرای ممیزی، از اپ دسکتاپ یا نسخه خط فرمان استفاده کن — خروجی‌ها دقیقاً یکسان است.
+      </p>
+      <div className="flex items-center gap-2">
+        <a
+          href="https://github.com/derhami/ranko"
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-lg px-3 py-1.5 text-[11px] font-bold text-zinc-950"
+          style={{ background: `linear-gradient(120deg, ${ACCENT}, #ff7a4a)` }}
+        >
+          گیت‌هاب
+        </a>
+        <a
+          href="https://www.npmjs.com/package/@seomator/seo-audit"
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-lg px-3 py-1.5 text-[11px] font-bold border border-white/10 bg-white/5 text-zinc-200"
+        >
+          npx @seomator/seo-audit
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function Hero({ onStart, serverOk }: { onStart: (url: string) => void; serverOk: boolean | null }) {
   const [value, setValue] = useState('');
+  const [offline, setOffline] = useState(false);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
     const u = urlToAudit(value);
-    if (u) onStart(u);
+    if (!u) return;
+    if (serverOk === false) {
+      setOffline(true);
+      return;
+    }
+    setOffline(false);
+    onStart(u);
   };
 
   return (
@@ -149,8 +187,10 @@ function Hero({ onStart }: Pick<LandingPageProps, 'onStart'>) {
           </button>
         </form>
 
+        <OfflineNotice show={offline} />
+
         <p className="hero-rise hero-rise-3 mt-3 text-xs text-zinc-500">
-          نتیجه‌ی ممیزی در همین مرورگر اجرا و نشان داده می‌شود — بدون ثبت‌نام، بدون محدودیت.
+          نتیجهی ممیزی در همین مرورگر اجرا و نشان داده میشود — بدون ثبتنام، بدون محدودیت.
         </p>
 
         {/* Stat strip */}
@@ -356,12 +396,19 @@ function HowItWorks() {
   );
 }
 
-function CTA({ onStart, onOpenApp }: LandingPageProps) {
+function CTA({ onStart, onOpenApp, serverOk }: { onStart: (url: string) => void; onOpenApp: () => void; serverOk: boolean | null }) {
   const [value, setValue] = useState('');
+  const [offline, setOffline] = useState(false);
   const submit = (e: FormEvent) => {
     e.preventDefault();
     const u = urlToAudit(value);
-    if (u) onStart(u);
+    if (!u) return;
+    if (serverOk === false) {
+      setOffline(true);
+      return;
+    }
+    setOffline(false);
+    onStart(u);
   };
   return (
     <section className="px-4 pb-24 pt-6">
@@ -393,6 +440,9 @@ function CTA({ onStart, onOpenApp }: LandingPageProps) {
               آنالیز کن
             </button>
           </form>
+          <div className="mt-4">
+            <OfflineNotice show={offline} />
+          </div>
           <a onClick={onOpenApp} href="#" className="inline-block mt-5 text-xs font-bold text-zinc-500 hover:text-zinc-300 transition-colors">
             یا مستقیم وارد ابزار شو ←
           </a>
@@ -405,6 +455,8 @@ function CTA({ onStart, onOpenApp }: LandingPageProps) {
 /* ─── Root ────────────────────────────────────────────────────────────────── */
 
 export function LandingPage({ onStart, onOpenApp }: LandingPageProps) {
+  const [serverOk, setServerOk] = useState<boolean | null>(null);
+
   useEffect(() => {
     const root = document.documentElement;
     const prev = root.getAttribute('data-theme');
@@ -412,6 +464,24 @@ export function LandingPage({ onStart, onOpenApp }: LandingPageProps) {
     return () => {
       if (prev) root.setAttribute('data-theme', prev);
       else root.removeAttribute('data-theme');
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 4000);
+    fetch('/api/health', { signal: controller.signal })
+      .then((res) => {
+        if (isMounted) setServerOk(res.ok);
+      })
+      .catch(() => {
+        if (isMounted) setServerOk(false);
+      })
+      .finally(() => clearTimeout(timer));
+    return () => {
+      isMounted = false;
+      controller.abort();
     };
   }, []);
 
@@ -465,10 +535,10 @@ export function LandingPage({ onStart, onOpenApp }: LandingPageProps) {
 
       {/* Content */}
       <main className="relative z-10">
-        <Hero onStart={onStart} />
+        <Hero onStart={onStart} serverOk={serverOk} />
         <Features />
         <HowItWorks />
-        <CTA onStart={onStart} onOpenApp={onOpenApp} />
+        <CTA onStart={onStart} onOpenApp={onOpenApp} serverOk={serverOk} />
       </main>
 
       {/* Footer */}
